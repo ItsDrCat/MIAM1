@@ -15,6 +15,8 @@
 
 **3.** Run MIAM1.exe (Should result in usable files in output folder)
 
+**4.** Put newly generated files in RP (You will also need to put the item texture in "textures/entity/attachable" for it to work)
+
 
 *NOTE: MIAM1 uses attachables to mimic the looks of items. This does have the side-effect of having weird looking swing animations. As of the release of this software this can't be fixed. MIAM1 is not reccomended for bulky or tool items, but will work anyways.*
 
