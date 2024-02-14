@@ -1,0 +1,15 @@
+{
+  "name": "miam1",
+  "version": "0.1.0",
+  "description": "MinecraftItemAttachableMaker1: Generate attachable files using only item textures.",
+  "main": "index.js",
+  "scripts": {
+    "test": "gen"
+  },
+  "author": "ItsDrCat",
+  "license": "MIT",
+  "dependencies": {
+    "jimp": "^0.22.10",
+    "punycode": "^2.3.1"
+  }
+}
