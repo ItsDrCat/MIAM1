@@ -6,7 +6,6 @@ var Jimp = require("jimp");
 const punycode = require('punycode/');
 var fs = require('fs');
 
-
 //set up config stuffs
 const { fileName } = require('./config.json');
 const { itemName } = require('./config.json');
@@ -15,36 +14,24 @@ const { isTool } = require('./config.json');
 const { generateDepth } = require('./config.json');
 const { depthIntensity } = require('./config.json');
 
-//test text lol
-var text = fs.readFileSync('text.txt', 'utf8')
-
-
+//log a few thingies
 console.log("STARTING!")
-console.log(text)
 console.log("Looking for: " + fileName)
 
-
 //MAKE MODEL
-// open image file
+//open image file
 let isFirst = true
 Jimp.read(fileName, (err, fileName) => {
   if (err) throw err;
   fileName
     .resize(16, 16) // resize
     .greyscale() // set greyscale
-    .write("output/DELETE-THIS.png") // save
 
-        //make item model file
+        //start item model file
         var writeStream = fs.createWriteStream("output/" + itemName + ".geo.json");
             writeStream.write('{\r\n"format_version": "1.16.0",\r\n"minecraft:geometry": [\r\n{\r\n"description": {\r\n"identifier": "geometry.generated.'+ itemName +'",\r\n"texture_width": 16,\r\n"texture_height": 16,\r\n"visible_bounds_width": 2,\r\n"visible_bounds_height": 3.5,\r\n\"visible_bounds_offset": [0, 1.25, 0]\r\n},\r\n"bones": [\r\n{\r\n"name": "root_item",\r\n"pivot": [0, 0, 0],\r\n"binding": "q.item_slot_to_bone_name(c.item_slot)",\r\n"cubes": [')
     
             fileName.scan(0, 0, fileName.bitmap.width, fileName.bitmap.height, function (x, y, idx) { //scan
-
-
-        //check if scan started
-        if (x == 0 && y == 0) {
-            //make item model file
-        }
 
         //get pixel colors
         var red = this.bitmap.data[idx + 0];
@@ -52,6 +39,7 @@ Jimp.read(fileName, (err, fileName) => {
         var blue = this.bitmap.data[idx + 2];
         var alpha = this.bitmap.data[idx + 3];
         
+        //debugs pixel stuff for me lol
         if(debug){
         console.log(red)
         console.log(green)
@@ -59,6 +47,7 @@ Jimp.read(fileName, (err, fileName) => {
         console.log(alpha)
         }
 
+        //calculate depth stuff
         let colorAverage = (red+green+blue)/3
         let depth = colorAverage*depthIntensity
         let depthPos = -(depth-1)/2
@@ -100,11 +89,8 @@ Jimp.read(fileName, (err, fileName) => {
                 }
                 writeStream.end()
           }
-
-
 });
 });
-
 
 //MAKE ANIMATION
 if(!isTool){
@@ -120,6 +106,7 @@ if(!isTool){
     writeStream.end()
 
 }
+
 //MAKE ATTACHABLE
 var writeStream = fs.createWriteStream("output/" + itemName + ".attachable.json");
 writeStream.write('{\r\n"format_version": "1.10.0",\r\n"minecraft:attachable": {\r\n"description": {\r\n"identifier": "minecraft:'+ itemName +'",\r\n"render_controllers": ["controller.render.item_default"],\r\n"materials": {\r\n"default": "entity_alphatest",\r\n"enchanted": "entity_alphatest_glint"\r\n},\r\n"textures": {\r\n"default": "textures/entity/attachable/'+ itemName +'",\r\n"enchanted": "textures/misc/enchanted_item_glint"\r\n},\r\n"geometry": {\r\n"default": "geometry.generated.'+ itemName +'"\r\n},\r\n"animations": {\r\n"first_person_hold": "animation.'+ itemName +'.hold_first_person",\r\n"third_person_hold": "animation.'+ itemName +'.hold_third_person"\r\n},\r\n"scripts": {\r\n"animate": [\r\n{\r\n"first_person_hold": "c.is_first_person"\r\n},\r\n{\r\n"third_person_hold": "!c.is_first_person"\r\n}\r\n]}}}}')
