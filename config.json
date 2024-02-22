@@ -1,0 +1,8 @@
+{
+    		"fileName":"input/test.png",  
+    		"itemName":"test",            
+    		"generateDepth":true,         
+    		"isTool":false,               
+    		"depthIntensity":0.008,       
+   			"debug":true   	       
+}
