@@ -8,12 +8,12 @@ const punycode = require('punycode/');
 var fs = require('fs');
 
 //set up config stuffs
-const { fileName } = require('./config.json');
-const { itemName } = require('./config.json');
-const { debug } = require('./config.json');
-const { isTool } = require('./config.json');
-const { generateDepth } = require('./config.json');
-const { depthIntensity } = require('./config.json');
+const { fileName } = require('./config.jsonc');
+const { itemName } = require('./config.jsonc');
+const { debug } = require('./config.jsonc');
+const { isTool } = require('./config.jsonc');
+const { generateDepth } = require('./config.jsonc');
+const { depthIntensity } = require('./config.jsonc');
 
 //log a few thingies
 console.log("STARTING!")
