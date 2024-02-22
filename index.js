@@ -49,35 +49,23 @@ Jimp.read(fileName, (err, fileName) => {
         }
 
         //calculate depth stuff
+        let depthPos = 0
+        let depth = 1
+        
+        if(generateDepth){
         let colorAverage = (red+green+blue)/3
-        let depth = colorAverage*depthIntensity
-        let depthPos = -(depth-1)/2
-
+        depth = colorAverage*depthIntensity
+        depthPos = -(depth-1)/2
+        }
         //add cubes
         if(alpha > 0){
             let xSum = x + -8
             let ySum = y + -8
             if(isFirst){
-                if(generateDepth){
-
                     writeStream.write('\r\n{"origin": ['+ xSum +', '+ depthPos +','+ ySum +'], "size": [1, '+ depth +', 1], "uv": {"north": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"south": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"east": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"west": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"up": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"down": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]}}}')
-                
-                }else{
-
-                    writeStream.write('\r\n{"origin": ['+ xSum +', 0,'+ ySum +'], "size": [1, 1, 1], "uv": {"north": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"south": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"east": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"west": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"up": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"down": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]}}}')   
-                
-                }
                 isFirst = false
             }else{
-                if(generateDepth){
-
-                    writeStream.write(',\r\n{"origin": ['+ xSum +', '+ depthPos +','+ ySum +'], "size": [1, '+ depth +', 1], "uv": {"north": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"south": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"east": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"west": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"up": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"down": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]}}}')
-                
-                }else{
-
-                    writeStream.write(',\r\n{"origin": ['+ xSum +', 0,'+ ySum +'], "size": [1, 1, 1], "uv": {"north": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"south": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"east": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"west": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"up": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"down": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]}}}')   
-                
-                }            
+                    writeStream.write(',\r\n{"origin": ['+ xSum +', '+ depthPos +','+ ySum +'], "size": [1, '+ depth +', 1], "uv": {"north": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"south": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"east": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"west": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"up": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]},"down": {"uv": ['+ x+ ','+ y +'], "uv_size": [1, 1]}}}')          
             }
         }
 
