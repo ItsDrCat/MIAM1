@@ -14,13 +14,56 @@ const { debug } = require('./config.json');
 const { isTool } = require('./config.json');
 const { generateDepth } = require('./config.json');
 const { depthIntensity } = require('./config.json');
+const { customHeightmapLocation } = require('./config.json');
 
 //log a few thingies
 console.log("STARTING!")
 console.log("Looking for: " + fileName)
 
+//define array for heightmap stuff
+const heightmapData = []
+if(customHeightmapLocation !== "none" && generateDepth)
+{
+    console.log("Using custom heightmap!")
+
+    //open heightmap file
+    Jimp.read(customHeightmapLocation, (err, customHeightmap) => {
+        if (err) throw err;
+        customHeightmap
+        .resize(16, 16) // resize
+        .greyscale() // set greyscale
+
+        //scan image
+        customHeightmap.scan(0, 0, customHeightmap.bitmap.width, customHeightmap.bitmap.height, function (x, y, idx) { //scan
+
+        //get pixel colors
+        var red = this.bitmap.data[idx + 0];
+        var green = this.bitmap.data[idx + 1];
+        var blue = this.bitmap.data[idx + 2];
+        var alpha = this.bitmap.data[idx + 3];
+        
+        //debugs pixel stuff for me lol
+        if(debug){
+        console.log("height "+ red)
+        console.log("height" + green)
+        console.log("height "+ blue)
+        console.log("height "+ alpha)
+        }
+
+        let colorAverageHeight = (red+green+blue)/3
+        depthHeight = colorAverageHeight*depthIntensity
+
+        //save height stuffs to array
+        heightmapData[x + (y * customHeightmap.bitmap.width)] = depthHeight
+        console.log("height final "+ heightmapData[x + (y * customHeightmap.bitmap.width)])
+    })
+    })
+
+}
+
 //MAKE MODEL
 //open image file
+console.log("Generating Attachable")
 let isFirst = true
 Jimp.read(fileName, (err, fileName) => {
   if (err) throw err;
@@ -52,10 +95,15 @@ Jimp.read(fileName, (err, fileName) => {
         let depthPos = 0
         let depth = 1
         
-        if(generateDepth){
+        if(customHeightmapLocation == "none" && generateDepth){
+
         let colorAverage = (red+green+blue)/3
         depth = colorAverage*depthIntensity
         depthPos = -(depth-1)/2
+
+        }else if(customHeightmapLocation !== "none" && generateDepth){
+            depth = heightmapData[x + (y * fileName.bitmap.width)]
+            depthPos = -(depth-1)/2
         }
         //add cubes
         if(alpha > 0){

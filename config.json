@@ -1,7 +1,8 @@
 {
     		"fileName":"input/test.png",  
     		"itemName":"test",            
-    		"generateDepth":false,         
+    		"generateDepth":true,
+			"customHeightmapLocation": "none",         
     		"isTool":false,               
     		"depthIntensity":0.008,       
    			"debug":true   	       
