@@ -3,12 +3,13 @@
 **1.** Open config.json, you should see a structure like this:
 ```jsonc
 	{
-    		"fileName": "input/cake.png",  // Name of the image you want to generate from.
-    		"itemName": "cake",            // Generated files' names (should be about the same as "fileName").
-    		"generateDepth": true,         // Generates the model with a extruded cubes to show depth.
-    		"isTool": false,               // Generates animation file with tool animation.
-    		"depthIntensity": 0.008,       // The intensity of "generateDepth".
-   		"debug": true   	       // Shows debug data in console.
+    		"fileName": "input/cake.png",  		// Name of the image you want to generate from.
+    		"itemName": "cake",            		// Generated files' names (should be about the same as "fileName").
+    		"generateDepth": true,         		// Generates the model with a extruded cubes to show depth.
+			"customHeightmapLocation": "none",  // location for custom heightmap if using generateDepth ("none" disables this feature)
+    		"isTool": false,               		// Generates animation file with tool animation.
+    		"depthIntensity": 0.008,            // The intensity of "generateDepth" features.
+   			"debug": true   	      		    // Shows debug data in console.
 	}
 ```
 **2.** Edit config.json to preffered options.
